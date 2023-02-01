@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Web Speech API</title>
+</head>
+<body>
+  <h1>Web Speech API</h1>
+  <textarea id="text"></textarea>
+  <button id="speak" onclick="speak()">Speak</button>
+  <button id="listen" onclick="listen()">Listen</button>
+
+  <script>
+    // Check if the browser supports the Web Speech API
+    if ('speechSynthesis' in window) {
+      // Get the textarea element
+      var textarea = document.getElementById('text');
+
+      // Speak function
+      function speak() {
+        // Get the text from the textarea
+        var text = textarea.value;
+
+        // Create a new speech synthesis utterance
+        var utterance = new SpeechSynthesisUtterance(text);
+
+        // Speak the text
+        window.speechSynthesis.speak(utterance);
+      }
+
+      // Listen function
+      function listen() {
+        // Create a new speech recognition object
+        var recognition = new webkitSpeechRecognition();
+
+        // Start listening
+        recognition.start();
+
+        // Set the language
+        recognition.lang = 'en-US';
+
+        // On result event
+        recognition.onresult = function(event) {
+          // Get the transcript of the speech
+          var transcript = event.results[0][0].transcript;
+
+          // Set the transcript to the textarea
+          textarea.value = transcript;
+        }
+      }
+    } else {
+      alert("Your browser does not support the Web Speech API");
+    }
+  </script>
+</body>
+</html>
